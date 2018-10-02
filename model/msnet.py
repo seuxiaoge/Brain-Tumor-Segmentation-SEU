@@ -45,39 +45,41 @@ class ResBlock(nn.Module):
         return x
 
 
-class anistropic_conv(nn.Module):
+class FuseLayer(nn.Module):
     """
     inter slice kernel 1 * 1 * 3
+    1x1x3 convolution output channel Co
+    Green block in Fig.2 of paper
     """
     def __init__(self, in_ch, out_ch):
-        super(anistropic_conv, self).__init__()
-        self.aniconv=nn.Sequential(
-            nn.Conv3d(in_ch, out_ch, (1,1,3), padding=(0,0,1), dilation=1),
-            nn.BatchNorm3d(out_ch),
-            nn.PReLU(),
+        super(FuseLayer, self).__init__()
+        self.ant=nn.Sequential(
+            nn.Conv3d(in_ch, out_ch, kernel_size=(1, 1, 3), padding=(0, 0, 1), dilation=1),
+            nn.BatchNorm3d(out_ch),     # batch normalization layer
+            nn.PReLU(),                 # action layer
         )
 
     def forward(self, x):
-        x1=self.aniconv(x)
+        x1 = self.ant(x)
         return x1
 
 
 class ResBlock3(nn.Module):
-    def __init__(self,in_ch,out_ch,flag):
-        super(ResBlock3,self).__init__()
-        if flag == 1:
+    def __init__(self, in_ch, out_ch, flag):
+        super(ResBlock3, self).__init__()
+        if flag == 1:  #
             self.block = nn.Sequential(
-                ResBlock(in_ch, out_ch, 1),
+                ResBlock(in_ch,  out_ch, 1),  #
                 ResBlock(out_ch, out_ch, 2),
                 ResBlock(out_ch, out_ch, 3),
-                anistropic_conv(out_ch, out_ch)
+                FuseLayer(out_ch, out_ch)
             )
         else:
             self.block = nn.Sequential(
-                ResBlock(in_ch, out_ch, 3),
+                ResBlock(in_ch,  out_ch, 3),
                 ResBlock(out_ch, out_ch, 2),
                 ResBlock(out_ch, out_ch, 1),
-                anistropic_conv(out_ch, out_ch)
+                FuseLayer(out_ch, out_ch)
             )
 
     def forward(self, x):
@@ -88,14 +90,15 @@ class ResBlock3(nn.Module):
 class ResBlock2(nn.Module):
     def __init__(self, in_ch, out_ch, flag):
         super(ResBlock2,self).__init__()
-        self.flag=flag
-        self.block=nn.Sequential(
+        self.flag = flag
+        self.block = nn.Sequential(
             ResBlock(in_ch, out_ch),
             ResBlock(out_ch, out_ch),
-            anistropic_conv(out_ch,out_ch),
+            FuseLayer(out_ch, out_ch),
         )
-        self.pooling=nn.Sequential(
-            nn.Conv3d(out_ch, out_ch, kernel_size=(3,3,1), stride=(2,2,1),padding=(1,1,0)),
+        self.pooling = nn.Sequential(
+            nn.Conv3d(out_ch, out_ch, kernel_size=(3, 3, 1),
+                      stride=(2, 2, 1), padding=(1, 1, 0)),
             nn.BatchNorm3d(out_ch),
             nn.PReLU(),
         )
@@ -109,35 +112,43 @@ class ResBlock2(nn.Module):
             return out
 
 
+class inconv(nn.Module):
+    def __init__(self,in_ch,out_ch):
+        super(inconv,self).__init__()
+        self.conv = nn.Sequential(
+            nn.ConvTranspose3d(in_ch, out_ch, kernel_size=(3, 3, 1),
+                               stride=(2, 2, 1), padding=(1, 1, 0), output_padding=(1, 1, 0)),
+            nn.BatchNorm3d(out_ch),
+            nn.PReLU(),
+        )
+
+    def forward(self, x):
+        x = self.conv(x)
+        return x
+
 class up(nn.Module):
-    def __init__(self,in_ch,out_classes,flag):
-        super(up,self).__init__()
+    def __init__(self, in_ch,  out_classes,flag):
+        super(up, self).__init__()
+
+        self.conv1 = nn.Conv3d(in_ch, out_classes, (3, 3, 1), padding=(1, 1, 0))
+
         if flag == 2:
             self.conv = nn.Sequential(
                 nn.Conv3d(in_ch, out_classes, (3, 3, 1), padding=(1, 1, 0)),
-                nn.ConvTranspose3d(out_classes, out_classes, kernel_size=(3,3,1),
-                                   stride=(2,2,1),padding=(1,1,0),output_padding=(1,1,0)),
-                nn.BatchNorm3d(out_classes),
-                nn.PReLU(),
+                inconv(out_classes, out_classes),
             )
         if flag == 4:  # * 4
             self.conv = nn.Sequential(
-                nn.Conv3d(in_ch, out_classes, kernel_size=(3, 3, 1), padding=(1, 1, 0)),
-                nn.ConvTranspose3d(out_classes, out_classes, kernel_size=(3, 3, 1),
-                                   stride=(2,2,1),padding=(1,1,0),output_padding=(1,1,0)),
-                nn.BatchNorm3d(out_classes),
-                nn.PReLU(),
-                nn.ConvTranspose3d(out_classes,out_classes, kernel_size=(3,3,1),
-                           stride=(2,2,1),padding=(1,1,0),output_padding=(1,1,0)),
-                nn.BatchNorm3d(out_classes),
-                nn.PReLU(),
-            )
-        if flag==1:
-            self.conv = nn.Sequential(
                 nn.Conv3d(in_ch, out_classes, (3, 3, 1), padding=(1, 1, 0)),
+                inconv(out_classes, out_classes),
+                inconv(out_classes, out_classes),
             )
 
+        if flag==1:
+            self.conv = self.conv1
+
     def forward(self, x):
+
         x=self.conv(x)
         return x
 
@@ -157,16 +168,17 @@ class WNET(nn.Module):
         self.out = up(7*n_classes, n_classes, 1)
 
     def forward(self, x):
-        x=self.conv(x)
-        x=self.block0(x)
-        x0,x=self.block1(x)
-        x0=self.up0(x0)
-        x=self.block2(x)
-        x1=self.up1(x)
-        x=self.block3(x)
-        x=self.up2(x)
-        x=torch.cat([x0,x1,x],dim=1)
-        x=self.out(x)
+        x = self.conv(x)
+        x = self.block0(x)
+        x0, x = self.block1(x)
+        x0 = self.up0(x0)
+        x = self.block2(x)
+
+        x1 =self.up1(x)
+        x = self.block3(x)
+        x = self.up2(x)
+        x = torch.cat([x0,x1,x],dim=1)
+        x = self.out(x)
         return F.sigmoid(x)
 
 
@@ -179,14 +191,19 @@ class ENET(nn.Module):
         self.block1 = ResBlock2(out_ch, out_ch, 1)
         self.block2 = ResBlock3(out_ch, out_ch, 1)
         self.block3 = ResBlock3(out_ch, out_ch, 0)
+
+        self.up0 = up(out_ch, n_classes, 1)
         self.up1 = up(out_ch, n_classes * 2, 2)
         self.up2 = up(out_ch, n_classes * 2, 2)
+
         self.out = up(5 * n_classes, n_classes, 1)
 
     def forward(self, x):
         x = self.conv(x)
         x,_ = self.block0(x)
         x0, x = self.block1(x)
+        x0 = self.up0(x0)
+
         x = self.block2(x)
         x1 = self.up1(x)
         x = self.block3(x)
@@ -197,5 +214,10 @@ class ENET(nn.Module):
 
 
 if __name__ =='__main__':
-    x = torch.randn(1,1,96,96,96)
-    net = WNET()
+    x = torch.ones(1, 1, 96, 96, 96)
+
+    net = ENET(1, 32, 2)
+    y = net(x)
+    print y.shape
+
+
