@@ -1,3 +1,4 @@
+from __future__ import print_function
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -215,11 +216,12 @@ class ENET(nn.Module):
 
 
 if __name__ =='__main__':
-    x = torch.ones(1, 1, 155, 240, 240)
+    x = torch.ones(1, 1, 15, 24, 24)
     net = ENET(1, 32, 2)
 
     if torch.cuda.is_available():
         net = net.cuda()
+        x = x.cuda()
 
     y = net(x)
     print y.shape
