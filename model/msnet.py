@@ -53,7 +53,7 @@ class FuseLayer(nn.Module):
     """
     def __init__(self, in_ch, out_ch):
         super(FuseLayer, self).__init__()
-        self.ant=nn.Sequential(
+        self.ant = nn.Sequential(
             nn.Conv3d(in_ch, out_ch, kernel_size=(1, 1, 3), padding=(0, 0, 1), dilation=1),
             nn.BatchNorm3d(out_ch),     # batch normalization layer
             nn.PReLU(),                 # action layer
@@ -125,6 +125,7 @@ class inconv(nn.Module):
     def forward(self, x):
         x = self.conv(x)
         return x
+
 
 class up(nn.Module):
     def __init__(self, in_ch,  out_classes,flag):
@@ -214,9 +215,12 @@ class ENET(nn.Module):
 
 
 if __name__ =='__main__':
-    x = torch.ones(1, 1, 96, 96, 96)
-
+    x = torch.ones(1, 1, 155, 240, 240)
     net = ENET(1, 32, 2)
+
+    if torch.cuda.is_available():
+        net = net.cuda()
+
     y = net(x)
     print y.shape
 

@@ -14,6 +14,8 @@ class Brats15DataLoader(Dataset):
         self.img_lists = []
         subjects = os.listdir(self.data_dir)
         for sub in subjects:
+            if sub == '.DS_Store':
+                continue
             self.img_lists.append(os.path.join(self.data_dir, sub))
 
     def __len__(self):
@@ -24,7 +26,8 @@ class Brats15DataLoader(Dataset):
         files = os.listdir(subject)  # 5 dierctory
 
         for im in files:
-            if 'T1.' in im:
+
+            if 'Flair.' in im:
                 img_name = os.path.join(subject, im)  # absolute directory
                 img_name = img_name + '/' + im + '.mha'
                 img = self.load_mha_as_array(img_name)
@@ -35,9 +38,21 @@ class Brats15DataLoader(Dataset):
                 label_name = label_name + '/' + im + '.mha'
                 label = self.load_mha_as_array(label_name)
 
-        return img, label
+        img = torch.from_numpy(img)
+        label = torch.from_numpy(label)
+        return img.float(), label.float()
 
-    def load_mha_as_array(self, img_name):
+
+    def get_labels(self, label):
+        """
+
+        :param label:
+        :return:
+        """
+
+
+    @staticmethod
+    def load_mha_as_array(img_name):
         img = sitk.ReadImage(img_name)
         nda = sitk.GetArrayFromImage(img)
 
@@ -52,10 +67,10 @@ if __name__ =="__main__":
     print 'image size ......'
     print img.shape
     print 'image max value ......'
-    print np.max(img), np.min(img)
+    print torch.max(img), torch.min(img)
 
     print 'label size ......'
     print label.shape
     print 'label max value ......'
-    print np.max(label), np.min(label)
+    print torch.max(label), torch.min(label)
 
