@@ -217,13 +217,14 @@ class ENET(nn.Module):
 
 if __name__ =='__main__':
     x = torch.ones(1, 1, 15, 24, 24)
-    net = ENET(1, 32, 2)
-
+    print 'test wnet....'
+    net = WNET(1, 32, 5)
     if torch.cuda.is_available():
         net = net.cuda()
         x = x.cuda()
 
     y = net(x)
-    print y.shape
+    print (y.shape)
+
 
 

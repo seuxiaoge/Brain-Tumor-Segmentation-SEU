@@ -3,7 +3,7 @@ import torch.nn as nn
 
 
 class UNet(nn.Module):
-    def __init__(self, in_ch):
+    def __init__(self, in_ch, out_ch):
         super(UNet, self).__init__()
 
         chs = [64, 128, 256, 512, 1024]
@@ -19,6 +19,8 @@ class UNet(nn.Module):
         self.up3 = Up(chs[2], chs[1])
         self.up4 = Up(chs[1], chs[0])
 
+        self.out = Conv3x3(chs[0], out_ch)
+
     def forward(self, x):
         x1 = self.down1(x)
         x2 = self.down2(x1)
@@ -30,6 +32,8 @@ class UNet(nn.Module):
         x = self.up2(x, x3)
         x = self.up3(x, x2)
         x = self.up4(x, x1)
+
+        x = self.out(x)
         return x
 
 
@@ -67,12 +71,8 @@ class Up(nn.Module):
 
 
 if __name__ == "__main__":
-    net = UNet(1)
-    a = torch.randn(4, 1, 368, 368)
+    net = UNet(1, 3)
+    a = torch.randn(4, 1, 64, 64)
     b = net(a)
     print b.shape
 
-
-
-if a == b:
-    print 111
