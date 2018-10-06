@@ -42,7 +42,7 @@ class UNet3D(nn.Module):
         x = self.upLayer2(x, x3)
         x = self.upLayer3(x, x2)
         x = self.upLayer4(x, x1)
-        print 'up layer'
+
         x = self.outLayer(x)
 
         return x
@@ -99,7 +99,7 @@ class UpBlock(nn.Module):
 
 # test case
 if __name__ == "__main__":
-    net = UNet3D(1, 5)
+    net = UNet3D(1, 4)
 
     x = torch.randn(1, 1, 64, 64, 64)  #
     print 'input data'
@@ -110,7 +110,7 @@ if __name__ == "__main__":
         x = x.cuda()
 
     y = net(x)
-    print 'output data'
+    print ('output data')
     print y.shape  # should be (1, 5, 64, 64, 64)
 
 

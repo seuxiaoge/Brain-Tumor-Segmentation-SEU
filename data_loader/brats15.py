@@ -9,8 +9,9 @@ import SimpleITK as sitk
 
 
 class Brats15DataLoader(Dataset):
-    def __init__(self, data_dir, train=True):
+    def __init__(self, data_dir, num_class=4, train=True):
         self.data_dir = data_dir  #
+        self.num_class = num_class
         self.img_lists = []
         subjects = os.listdir(self.data_dir)
         for sub in subjects:
@@ -26,30 +27,37 @@ class Brats15DataLoader(Dataset):
         files = os.listdir(subject)  # 5 dierctory
 
         for im in files:
+            path = os.path.join(subject, im)  # absolute directory
 
             if 'Flair.' in im:
-                img_name = os.path.join(subject, im)  # absolute directory
-                img_name = img_name + '/' + im + '.mha'
+                img_name = path + '/' + im + '.mha'
                 img = self.load_mha_as_array(img_name)
+                img = img[np.newaxis, :, :, :]
                 continue
 
             if 'OT.' in im:
-                label_name = os.path.join(subject, im)  # absolute directory
-                label_name = label_name + '/' + im + '.mha'
+                label_name = path + '/' + im + '.mha'
                 label = self.load_mha_as_array(label_name)
+                labels = self.get_labels(label)
 
         img = torch.from_numpy(img)
-        label = torch.from_numpy(label)
-        return img.float(), label.float()
+        label = torch.from_numpy(labels)
 
+        return img.float(), label.float()
 
     def get_labels(self, label):
         """
-
-        :param label:
-        :return:
+        generate one hot label
+        :param label: 155 * 240 * 240
+        :return:  4 * 155 * 240 * 240
         """
 
+        labels = []
+        for i in range(1, self.num_class+1):
+            tmp = (label == i) + 0
+            labels.append(tmp)
+
+        return np.asarray(labels)
 
     @staticmethod
     def load_mha_as_array(img_name):
@@ -66,11 +74,13 @@ if __name__ =="__main__":
     img, label = brats15[0]
     print 'image size ......'
     print img.shape
-    print 'image max value ......'
-    print torch.max(img), torch.min(img)
 
     print 'label size ......'
     print label.shape
-    print 'label max value ......'
-    print torch.max(label), torch.min(label)
+
+    a = np.asarray(label == 1)
+
+
+
+
 

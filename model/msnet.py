@@ -1,4 +1,4 @@
-from __future__ import print_function
+# from __future__ import print_function
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -179,7 +179,7 @@ class WNET(nn.Module):
         x1 =self.up1(x)
         x = self.block3(x)
         x = self.up2(x)
-        x = torch.cat([x0,x1,x],dim=1)
+        x = torch.cat([x0, x1, x], dim=1)
         x = self.out(x)
         return F.sigmoid(x)
 
@@ -205,26 +205,43 @@ class ENET(nn.Module):
         x,_ = self.block0(x)
         x0, x = self.block1(x)
         x0 = self.up0(x0)
-
         x = self.block2(x)
         x1 = self.up1(x)
+
         x = self.block3(x)
         x = self.up2(x)
+
+
         x = torch.cat([x0, x1, x], dim=1)
+        print x.shape
+
         x = self.out(x)
         return F.sigmoid(x)
 
 
 if __name__ =='__main__':
-    x = torch.ones(1, 1, 15, 24, 24)
-    print 'test wnet....'
-    net = WNET(1, 32, 5)
+    x = torch.ones(1, 1, 24, 24, 24)
+    # print ('test wnet....')
+    # net = WNET(1, 32, 5)
+    # if torch.cuda.is_available():
+    #     net = net.cuda()
+    #     x = x.cuda()
+    #
+    # y = net(x)
+    # print (y.shape)
+
+    print ('test Enet...')
+    print 'shape of X '
+    print x.shape
+    net = ENET(1, 32, 5)
     if torch.cuda.is_available():
         net = net.cuda()
         x = x.cuda()
 
     y = net(x)
+    print 'shape of Y '
     print (y.shape)
+
 
 
 
