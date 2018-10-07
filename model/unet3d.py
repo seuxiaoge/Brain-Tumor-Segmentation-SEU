@@ -102,8 +102,8 @@ if __name__ == "__main__":
     net = UNet3D(1, 4)
 
     x = torch.randn(1, 1, 64, 64, 64)  #
-    print 'input data'
-    print x.shape
+    print ('input data' )
+    print (x.shape)
 
     if torch.cuda.is_available():
         net = net.cuda()
@@ -111,6 +111,6 @@ if __name__ == "__main__":
 
     y = net(x)
     print ('output data')
-    print y.shape  # should be (1, 5, 64, 64, 64)
+    print (y.shape)  # should be (1, 5, 64, 64, 64)
 
 
