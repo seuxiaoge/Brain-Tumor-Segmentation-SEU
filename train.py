@@ -37,7 +37,7 @@ def train():
     net.train()
 
     for epoch in range(0, epochs):
-        print 'epoch....................................' + str(epoch)
+        print ('epoch....................................' + str(epoch))
         for step, (images, labels) in enumerate(train_dataset):
             images = Variable(images.cuda() if cuda_available else images)
             labels = Variable(labels.cuda() if cuda_available else labels)
@@ -46,13 +46,17 @@ def train():
             predicts = net(images)
 
             loss = criterion(predicts, labels)
-            print 'step... %f  loss... %f ' % (step, float(loss))
+            print ('step... %f  loss... %f ' % (step, float(loss)) )
 
             loss.backward()
             optimizer.step()
 
         torch.save(net.state_dict(), os.path.join(save_dir, 'unet3d_{:d}.pth'.format(epoch)))
 
-    print 'done!'
+    print ('done!')
+
+
+if __name__ =='__main__':
+    train()
 
 

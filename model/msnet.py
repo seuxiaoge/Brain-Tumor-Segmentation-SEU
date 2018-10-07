@@ -211,9 +211,7 @@ class ENET(nn.Module):
         x = self.block3(x)
         x = self.up2(x)
 
-
         x = torch.cat([x0, x1, x], dim=1)
-        print x.shape
 
         x = self.out(x)
         return F.sigmoid(x)
@@ -221,25 +219,29 @@ class ENET(nn.Module):
 
 if __name__ =='__main__':
     x = torch.ones(1, 1, 24, 24, 24)
-    # print ('test wnet....')
-    # net = WNET(1, 32, 5)
-    # if torch.cuda.is_available():
-    #     net = net.cuda()
-    #     x = x.cuda()
-    #
-    # y = net(x)
-    # print (y.shape)
-
-    print ('test Enet...')
-    print 'shape of X '
+    print ('test wnet............')
+    print ('shape of X ')
     print x.shape
-    net = ENET(1, 32, 5)
+
+    net = WNET(1, 32, 4)
     if torch.cuda.is_available():
         net = net.cuda()
         x = x.cuda()
 
     y = net(x)
-    print 'shape of Y '
+    print ('shape of Y ')
+    print (y.shape)
+
+    print ('test Enet.............')
+    print ('shape of X ')
+    print x.shape
+    net = ENET(1, 32, 4)
+    if torch.cuda.is_available():
+        net = net.cuda()
+        x = x.cuda()
+
+    y = net(x)
+    print ('shape of Y ')
     print (y.shape)
 
 

@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fea0c58a-1007-44ba-99e8-ed5f0ce8c1c1" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/data_loader/brats15.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_loader/brats15.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/msnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/msnet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,7 +21,7 @@
       <file leaf-file-name="unet.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/unet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
+            <state relative-caret-position="1110">
               <caret line="74" column="38" lean-forward="true" selection-start-line="74" selection-start-column="38" selection-end-line="74" selection-end-column="38" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
@@ -31,8 +33,8 @@
       <file leaf-file-name="unet3d.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/unet3d.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="103" column="37" selection-start-line="103" selection-start-column="37" selection-end-line="103" selection-end-column="37" />
+            <state relative-caret-position="304">
+              <caret line="109" column="18" lean-forward="true" selection-start-line="109" selection-start-column="18" selection-end-line="109" selection-end-column="18" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -43,8 +45,8 @@
       <file leaf-file-name="msnet.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/msnet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="117">
-              <caret line="112" column="22" lean-forward="true" selection-start-line="112" selection-start-column="22" selection-end-line="112" selection-end-column="22" />
+            <state relative-caret-position="1779">
+              <caret line="218" lean-forward="true" selection-start-line="218" selection-end-line="218" />
               <folding>
                 <element signature="e#40#52#0" expanded="true" />
                 <element signature="e#4264#5116#0" />
@@ -56,11 +58,8 @@
       <file leaf-file-name="train.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="105">
+              <caret line="7" column="9" lean-forward="true" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -68,8 +67,8 @@
       <file leaf-file-name="brats15.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_loader/brats15.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="73" column="20" lean-forward="true" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
+            <state relative-caret-position="343">
+              <caret line="77" column="25" selection-start-line="77" selection-start-column="25" selection-end-line="77" selection-end-column="25" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -125,10 +124,10 @@
         <option value="$PROJECT_DIR$/data_loader/__init__.py" />
         <option value="$PROJECT_DIR$/model/1.py" />
         <option value="$PROJECT_DIR$/model/3dunet.py" />
-        <option value="$PROJECT_DIR$/model/msnet.py" />
         <option value="$PROJECT_DIR$/model/unet3d.py" />
-        <option value="$PROJECT_DIR$/data_loader/brats15.py" />
+        <option value="$PROJECT_DIR$/model/msnet.py" />
         <option value="$PROJECT_DIR$/train.py" />
+        <option value="$PROJECT_DIR$/data_loader/brats15.py" />
       </list>
     </option>
   </component>
@@ -147,11 +146,6 @@
             <path>
               <item name="Brain-Tumor-Segmentation-SEU" type="b2602c69:ProjectViewProjectNode" />
               <item name="Brain-Tumor-Segmentation-SEU" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Brain-Tumor-Segmentation-SEU" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Brain-Tumor-Segmentation-SEU" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -183,7 +177,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.3dunet">
+  <component name="RunManager" selected="Python.brats15">
     <configuration name="3dunet" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Brain-Tumor-Segmentation-SEU" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -283,10 +277,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.3dunet" />
         <item itemvalue="Python.brats15" />
-        <item itemvalue="Python.train" />
         <item itemvalue="Python.msnet" />
+        <item itemvalue="Python.3dunet" />
+        <item itemvalue="Python.train" />
         <item itemvalue="Python.unet" />
       </list>
     </recent_temporary>
@@ -354,13 +348,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/data_loader/brats15.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -516,16 +504,6 @@
     <entry file="file://$PROJECT_DIR$/data_loader/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/unet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="74" column="38" lean-forward="true" selection-start-line="74" selection-start-column="38" selection-end-line="74" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10035">
@@ -536,21 +514,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/msnet.py">
+    <entry file="file://$PROJECT_DIR$/model/unet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
-          <caret line="112" column="22" lean-forward="true" selection-start-line="112" selection-start-column="22" selection-end-line="112" selection-end-column="22" />
+        <state relative-caret-position="1110">
+          <caret line="74" column="38" lean-forward="true" selection-start-line="74" selection-start-column="38" selection-end-line="74" selection-end-column="38" />
           <folding>
-            <element signature="e#40#52#0" expanded="true" />
-            <element signature="e#4264#5116#0" />
+            <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data_loader/brats15.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="73" column="20" lean-forward="true" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
+        <state relative-caret-position="343">
+          <caret line="77" column="25" selection-start-line="77" selection-start-column="25" selection-end-line="77" selection-end-column="25" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -559,21 +536,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/unet3d.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="103" column="37" selection-start-line="103" selection-start-column="37" selection-end-line="103" selection-end-column="37" />
+        <state relative-caret-position="304">
+          <caret line="109" column="18" lean-forward="true" selection-start-line="109" selection-start-column="18" selection-end-line="109" selection-end-column="18" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/model/msnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1779">
+          <caret line="218" lean-forward="true" selection-start-line="218" selection-end-line="218" />
+          <folding>
+            <element signature="e#40#52#0" expanded="true" />
+            <element signature="e#4264#5116#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="105">
+          <caret line="7" column="9" lean-forward="true" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
         </state>
       </provider>
     </entry>

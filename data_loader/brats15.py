@@ -72,10 +72,10 @@ if __name__ =="__main__":
 
     brats15 = Brats15DataLoader(data_dir=data_dir)
     img, label = brats15[0]
-    print 'image size ......'
+    print ('image size ......')
     print img.shape
 
-    print 'label size ......'
+    print ('label size ......')
     print label.shape
 
     a = np.asarray(label == 1)
