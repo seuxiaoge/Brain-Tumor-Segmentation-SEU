@@ -32,17 +32,11 @@ class UNet3D(nn.Module):
 
     def forward(self, x):
         x1 = self.downLayer1(x)
-        print x1.shape
         x2 = self.downLayer2(x1)
-        print x2.shape
         x3 = self.downLayer3(x2)
-        print x3.shape
         x4 = self.downLayer4(x3)
-        print x4.shape
         x5 = self.bottomLayer(x4)
 
-        print x5.shape
-        print 'up ...'
         x = self.upLayer1(x5, x4)
         x = self.upLayer2(x, x3)
         x = self.upLayer3(x, x2)
@@ -97,8 +91,6 @@ class UpBlock(nn.Module):
 
     def forward(self, x, down_features):
         x = self.up_conv(x)
-        print 'upconv'
-        print x.shape
         x = torch.cat([x, down_features], dim=1)
         x = self.conv(x)
         return x
