@@ -32,12 +32,17 @@ class UNet3D(nn.Module):
 
     def forward(self, x):
         x1 = self.downLayer1(x)
-
+        print x1.shape
         x2 = self.downLayer2(x1)
+        print x2.shape
         x3 = self.downLayer3(x2)
+        print x3.shape
         x4 = self.downLayer4(x3)
+        print x4.shape
         x5 = self.bottomLayer(x4)
 
+        print x5.shape
+        print 'up ...'
         x = self.upLayer1(x5, x4)
         x = self.upLayer2(x, x3)
         x = self.upLayer3(x, x2)
@@ -74,7 +79,7 @@ class ConvTrans3d(nn.Module):
     def __init__(self, in_ch, out_ch):
         super(ConvTrans3d, self).__init__()
         self.conv1 = nn.Sequential(
-            nn.ConvTranspose3d(in_ch, out_ch, kernel_size=3, stride=2, padding=1, output_padding=1),
+            nn.ConvTranspose3d(in_ch, out_ch, kernel_size=3, stride=2, padding=1, output_padding=1, dilation=1),
             nn.BatchNorm3d(out_ch),
             nn.LeakyReLU(0.2, inplace=True)
         )
@@ -92,6 +97,8 @@ class UpBlock(nn.Module):
 
     def forward(self, x, down_features):
         x = self.up_conv(x)
+        print 'upconv'
+        print x.shape
         x = torch.cat([x, down_features], dim=1)
         x = self.conv(x)
         return x
@@ -99,10 +106,10 @@ class UpBlock(nn.Module):
 
 # test case
 if __name__ == "__main__":
-    net = UNet3D(1, 4)
+    net = UNet3D(1, 1)
 
-    x = torch.randn(1, 1, 64, 64, 64)  #
-    print ('input data' )
+    x = torch.randn(1, 1, 16, 240, 240)  #
+    print ('input data')
     print (x.shape)
 
     if torch.cuda.is_available():
@@ -112,5 +119,7 @@ if __name__ == "__main__":
     y = net(x)
     print ('output data')
     print (y.shape)  # should be (1, 5, 64, 64, 64)
+
+
 
 

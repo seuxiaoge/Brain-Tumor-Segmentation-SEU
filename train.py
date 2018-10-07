@@ -23,7 +23,7 @@ data = Brats15DataLoader(data_dir='data/train/')
 train_dataset = DataLoader(dataset=data, batch_size=1, shuffle=True)
 
 
-net = UNet3D(in_ch=1, out_ch=4)
+net = UNet3D(in_ch=1, out_ch=1)
 
 if cuda_available:
     net = net.cuda()
