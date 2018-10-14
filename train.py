@@ -32,7 +32,8 @@ if cuda_available:
 
 def train():
     optimizer = optim.Adam(params=net.parameters(), lr=0.001, betas=(0.9, 0.999))
-    criterion = nn.CrossEntropyLoss(size_average=True)
+
+    criterion = nn.BCELoss(size_average=True)
 
     net.train()
 

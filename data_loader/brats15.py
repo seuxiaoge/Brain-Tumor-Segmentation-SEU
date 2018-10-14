@@ -46,6 +46,9 @@ class Brats15DataLoader(Dataset):
 
         img, labels = self.get_volumes(img, labels)
 
+        img = img[np.newaxis, :, :, :]
+        labels = labels[np.newaxis, :, :, :]
+
         img = torch.from_numpy(img)
         labels = torch.from_numpy(labels)
 
